@@ -120,7 +120,8 @@ class RandomFloat(object):
 
 class RandomWeights(object):
     """
-    Generate random tuples of `number` positive floats summing to 1.
+    Generate random tuples of `number` positive floats summing to 1
+    with Dirichlet distribution
 
     >>> generator = RandomWeights(4)
     >>> w = next(generator)
@@ -129,33 +130,10 @@ class RandomWeights(object):
 
     def __init__(self, number):
         super(RandomWeights, self).__init__()
-        self.number = number
+        self.alpha = (1,) * number
 
     def __iter__(self):
         return self
 
     def next(self):
-        values = np.random.rand(self.number)
-        return tuple(values/np.sum(values))
-
-
-class RandomWeightsBis(object):
-    """
-    Generate random tuples of `number` positive floats summing to 1.
-
-    >>> generator = RandomWeights(4)
-    >>> w = next(generator)
-    >>> assert isinstance(w, tuple) and len(w) == 4 and sum(w) == 1.
-    """
-
-    def __init__(self, number):
-        super(RandomWeights, self).__init__()
-        self.number = number
-
-    def __iter__(self):
-        return self
-
-    def next(self):
-        values = np.random.rand(self.number-1)
-        return tuple(values/np.sum(values))
-
+        return tuple(np.random.dirichlet(self.alpha, 1)[0])
