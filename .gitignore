@@ -1,7 +1,3 @@
 *.pyc
-doc/build
-dist/
-MANIFEST
-_debug_.py
-wip/
 *.DS_Store
+tuning.egg-info
